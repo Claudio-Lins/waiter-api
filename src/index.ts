@@ -11,6 +11,10 @@ const app = express()
 const server = http.createServer(app)
 export const io = new Server(server)
 
+io.on('connect', () => {
+  console.log('Connected to socket.io')
+})
+
 mongoose.connect('mongodb+srv://admin:admin@cluster0.gpu9lve.mongodb.net/?retryWrites=true&w=majority')
 // mongoose.connect('mongodb://localhost:27017')
   .then(() => {
@@ -24,7 +28,7 @@ mongoose.connect('mongodb+srv://admin:admin@cluster0.gpu9lve.mongodb.net/?retryW
 
     server.listen(port, () => {
       console.log(`🚀 Server is running on http://localhost:${port}`)
-      console.log('Connected to MongoDB')
+      console.log('Connected to MongoDB!!!')
     })
   })
-  .catch(err => console.error('Could not connect to MongoDB', err))
+  .catch(err => console.error('Could not connect to MongoDB!', err))

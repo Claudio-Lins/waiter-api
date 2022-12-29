@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { io } from '../../..'
 import { Order } from '../../models/Order'
 
 
@@ -10,6 +11,7 @@ export async function changeOrderStatus(req: Request, res:Response){
     if (!['WAITING', 'IN_PRODUCTION', 'DONE'].includes(status)) {
       return res.status(401).json({ error: 'Invalid status' })
     }
+    io.emit('orders@status')
 
     await Order.findByIdAndUpdate(orderId, {
       status
