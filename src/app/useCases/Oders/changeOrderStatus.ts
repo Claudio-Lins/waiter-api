@@ -6,12 +6,14 @@ import { Order } from '../../models/Order'
 export async function changeOrderStatus(req: Request, res:Response){
   try {
     const { orderId } = req.params
-    const { status } = req.body
+    const { status, table } = req.body
+
+
+    io.emit('orders@status', table, status)
 
     if (!['WAITING', 'IN_PRODUCTION', 'DONE'].includes(status)) {
       return res.status(401).json({ error: 'Invalid status' })
     }
-    io.emit('orders@status')
 
     await Order.findByIdAndUpdate(orderId, {
       status
